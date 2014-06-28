@@ -1,8 +1,5 @@
 package com.primerajunta.emailsender.application;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
@@ -10,28 +7,42 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import com.primerajunta.emailsender.server.EmailServer;
+import com.primerajunta.emailsender.tracking.GoogleAnalyticsTrackingGenerator;
 
 public class MailGenerator {
 
-	public static void main(String[] args) {
-		Map<String, String> users = new HashMap<String, String>();
-		users.put("javanrell@gmail.com", "Juan");
-		users.put("freddyenrich@hotmail.com", "Freddy");
-		EmailServer emailServer = new EmailServer();
-		for (String email : users.keySet()) {
-			MimeMessage message = new MimeMessage(emailServer.getSession());
-			try {
-				message.setFrom(new InternetAddress("juan@vanrell.com"));
-					message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));	
-				message.setSubject("Test");
-				message.setText("First message on JavaMail");
-			} catch (AddressException e) {
-				e.printStackTrace();
-			} catch (MessagingException e) {
-				e.printStackTrace();
-			}
-			emailServer.sendEmail(message);
-		}			
+	private GoogleAnalyticsTrackingGenerator trackingGenerator;
+	
+	public MailGenerator() {
+		trackingGenerator = new GoogleAnalyticsTrackingGenerator("UA-52089709-1");
+	}
+	
+	public Message createMessage(User user, String campaignName, EmailServer emailServer) {
+		MimeMessage message = new MimeMessage(emailServer.getSession());
+		try {
+			message.setFrom(new InternetAddress("juan@vanrell.com"));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail()));	
+			message.setSubject("Test");
+			message.setText(getBody(user.getId(), campaignName), "ISO-8859-1",	"html");
+		} catch (AddressException e) {
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+		return message;		
+	}
+	
+	private String getBody(int userId, String campaignName) {
+		StringBuilder body = new StringBuilder();
+		body.append("<html>");
+		body.append("<header>");
+		body.append("</header>");
+		body.append("<body>");
+		body.append("First message on JavaMail");
+		body.append("<img src=\"" + trackingGenerator.getOpenEmailUrl(userId, campaignName) + "\"/>");
+		body.append("</body>");
+		body.append("</html>");
+		return body.toString();
 	}
 
 }
