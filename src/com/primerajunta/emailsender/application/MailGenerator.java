@@ -23,7 +23,7 @@ public class MailGenerator {
 			message.setFrom(new InternetAddress("juan@vanrell.com"));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail()));	
 			message.setSubject("Test");
-			message.setText(getBody(user.getId(), campaignName), "ISO-8859-1",	"html");
+			message.setText(getBody(user, campaignName), "ISO-8859-1",	"html");
 		} catch (AddressException e) {
 			e.printStackTrace();
 		} catch (MessagingException e) {
@@ -32,14 +32,14 @@ public class MailGenerator {
 		return message;		
 	}
 	
-	private String getBody(int userId, String campaignName) {
+	private String getBody(User user, String campaignName) {
 		StringBuilder body = new StringBuilder();
 		body.append("<html>");
 		body.append("<header>");
 		body.append("</header>");
 		body.append("<body>");
 		body.append("First message on JavaMail");
-		body.append("<img src=\"" + trackingGenerator.getOpenEmailUrl(userId, campaignName) + "\"/>");
+		body.append("<img src=\"" + trackingGenerator.getOpenEmailUrl(user, campaignName) + "\"/>");
 		body.append("</body>");
 		body.append("</html>");
 		return body.toString();

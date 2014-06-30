@@ -1,12 +1,16 @@
 package com.primerajunta.emailsender.tracking;
 
+import java.util.UUID;
+
+import com.primerajunta.emailsender.application.User;
+
 
 /**
  * Google Analytics tracking url generator
  * @author jvanrell
  *
  */
-public class GoogleAnalyticsTrackingGenerator {
+public class GoogleAnalyticsTrackingGenerator implements TrackingGenerator {
 
 	// Tracking Id Google Analytics
 	private String trackingId;
@@ -15,7 +19,7 @@ public class GoogleAnalyticsTrackingGenerator {
 		this.trackingId = trackingId;
 	}
 	
-	public String getOpenEmailUrl(int userId, String campaignName) {
+	public String getOpenEmailUrl(User user, String campaignName) {
 		StringBuilder urlOpen = new StringBuilder();
 		urlOpen.append("http://www.google-analytics.com/collect");		
 		//Protocol version within Google Analytics
@@ -26,7 +30,7 @@ public class GoogleAnalyticsTrackingGenerator {
 		urlOpen.append("tid=" + trackingId);
 		//User ID to track
 		urlOpen.append("&");
-		urlOpen.append("cid=" + String.valueOf(userId));
+		urlOpen.append("cid=" + generateTrackingRecord(user, campaignName));
 		//Tells Google Analytics this is an Event Hit Type
 		urlOpen.append("&");
 		urlOpen.append("t=event");
@@ -50,6 +54,13 @@ public class GoogleAnalyticsTrackingGenerator {
 		urlOpen.append("cn=" + campaignName);
 		
 		return urlOpen.toString();
+	}
+	
+	private UUID generateTrackingRecord(User user, String campaignName) {
+		UUID userUUID = UUID.randomUUID();
+		System.out.println(user.getName() + ": " + userUUID);
+		// TODO guardar el UUID asociado a este user en esta campaña.
+		return userUUID;
 	}
 
 }
