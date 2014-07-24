@@ -10,6 +10,8 @@ import com.primerajunta.emailsender.server.EmailServer;
 import com.primerajunta.emailsender.tracking.GoogleAnalyticsTrackingGenerator;
 
 public class MailGenerator {
+	
+	private String domain; 
 
 	private GoogleAnalyticsTrackingGenerator trackingGenerator;
 	
@@ -20,7 +22,8 @@ public class MailGenerator {
 	public Message createMessage(User user, String campaignName, EmailServer emailServer) {
 		MimeMessage message = new MimeMessage(emailServer.getSession());
 		try {
-			message.setFrom(new InternetAddress("juan@vanrell.com"));
+			message.addHeader("List-Unsubscribe", "<mailto:unsubscribe@" + domain + ">, <http://www." + domain + "/user/unsubscribe/?sid=" + user.getId() + ">");
+			message.setFrom(new InternetAddress("contacto@" + domain));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail()));	
 			message.setSubject("Test");
 			message.setText(getBody(user, campaignName), "ISO-8859-1",	"html");
@@ -43,6 +46,10 @@ public class MailGenerator {
 		body.append("</body>");
 		body.append("</html>");
 		return body.toString();
+	}
+
+	public void setDomain(String domain) {
+		this.domain = domain;
 	}
 
 }
