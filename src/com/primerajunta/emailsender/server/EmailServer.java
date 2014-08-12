@@ -5,10 +5,13 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.primerajunta.emailsender.configuration.SMTPConfiguration;
 
 public class EmailServer {
 	
+	@Autowired
 	private Session session;
 
 	public Session getSession() {

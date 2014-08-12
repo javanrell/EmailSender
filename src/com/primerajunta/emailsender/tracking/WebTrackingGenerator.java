@@ -1,6 +1,6 @@
 package com.primerajunta.emailsender.tracking;
 
-import com.primerajunta.emailsender.application.User;
+import com.primerajunta.emailsender.model.User;
 
 public class WebTrackingGenerator implements TrackingGenerator {
 
@@ -10,12 +10,16 @@ public class WebTrackingGenerator implements TrackingGenerator {
 		return domain + "/o/" + getEncryptedData(user, campaignName);
 	}
 
-	public String getEnterEmailUrl(User user, String campaignName, String page) {
-		return domain + "/e/" + getEncryptedData(user, campaignName) + "/p/" + page;
+	public String getAccessFromEmailUrl(User user, String campaignName, String page) {
+		return domain + "/a/" + getEncryptedData(user, campaignName) + "/p/" + page;
 	}
 
-	public String getBuyEmailUrl(User user, String campaignName, String page) {
+	public String getBuyFromEmailUrl(User user, String campaignName, String page) {
 		return domain + "/b/" + getEncryptedData(user, campaignName) + "/p/" + page;
+	}
+	
+	public String getRegisterFromEmailUrl(User user, String campaignName, String page) {
+		return domain + "/r/" + getEncryptedData(user, campaignName) + "/p/" + page;
 	}
 
 	private String getEncryptedData(User user, String campaignName) {

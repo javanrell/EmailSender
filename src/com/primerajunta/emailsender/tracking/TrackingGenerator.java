@@ -1,6 +1,6 @@
 package com.primerajunta.emailsender.tracking;
 
-import com.primerajunta.emailsender.application.User;
+import com.primerajunta.emailsender.model.User;
 
 public interface TrackingGenerator {
 

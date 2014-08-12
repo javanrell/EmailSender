@@ -1,1 +1,7 @@
+/config
+/webapp
+/log4j.properties
+/applicationContext.xml
+/hibernate.cfg.xml
+/context.xml
 /com

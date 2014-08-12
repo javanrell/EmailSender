@@ -6,11 +6,19 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+import com.primerajunta.emailsender.model.User;
 import com.primerajunta.emailsender.server.EmailServer;
 import com.primerajunta.emailsender.tracking.GoogleAnalyticsTrackingGenerator;
 
+@Component
 public class MailGenerator {
 	
+	@Autowired
+	@Qualifier("domain")
 	private String domain; 
 
 	private GoogleAnalyticsTrackingGenerator trackingGenerator;
@@ -27,6 +35,7 @@ public class MailGenerator {
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail()));	
 			message.setSubject("Test");
 			message.setText(getBody(user, campaignName), "ISO-8859-1",	"html");
+			System.out.println("Domain: " + domain); 
 		} catch (AddressException e) {
 			e.printStackTrace();
 		} catch (MessagingException e) {

@@ -1,17 +1,17 @@
-package com.primerajunta.emailsender.application;
+package com.primerajunta.emailsender.model;
 
-public class User {
+import javax.persistence.Entity;
+
+@Entity
+public class User extends AbstractEntity {
 	
 	private String name;
 	
 	private String email;
 	
-	private int id;
-
-	public User(String name, String email, int id) {
+	public User(String name, String email) {
 		this.name = name;
 		this.email = email;
-		this.id = id;
 	}
 
 	public String getName() {
@@ -30,12 +30,8 @@ public class User {
 		this.email = email;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
+	public Class<? extends com.primerajunta.emailsender.model.Entity> getEntityClass() {
+		return User.class;
 	}
 
 }

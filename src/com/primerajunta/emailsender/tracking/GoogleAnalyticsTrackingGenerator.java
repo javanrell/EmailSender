@@ -2,7 +2,7 @@ package com.primerajunta.emailsender.tracking;
 
 import java.util.UUID;
 
-import com.primerajunta.emailsender.application.User;
+import com.primerajunta.emailsender.model.User;
 
 
 /**
